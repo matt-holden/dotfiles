@@ -1,1 +1,89 @@
-/Users/matthew.holden/.vimrc.after
+color desertex
+
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
+set nolist
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set guifont=Monaco:h13
+set nocursorline
+set history=200
+
+set noerrorbells
+set visualbell
+set t_vb=
+:filetype plugin on
+
+nmap Y y$
+
+imap <Leader>e <Esc>
+imap {}<Enter> {<Enter><Esc>o}<Esc>Vkk=j$
+imap <Leader>p <Esc>pa
+imap <Leader>P <Esc>Pa
+nmap <d-J> i<Enter><Esc>
+
+"save and reload autocommand
+let g:ReloadSafariOnSave = 0
+function! ReloadSafari(delay) 
+  if g:ReloadSafariOnSave == 1
+    let theString = "!osascript ~/Development/MySrc/applescript/reloadSafari.APPLESCRIPT " . a:delay
+    silent execute theString
+  endif
+endfunction
+
+"on save autocommands
+if !exists("g:matts_autocommands_loaded")
+  let g:matts_autocommands_loaded = 1 
+  
+  au BufWritePost *.html,*\.css,*.js ks|call ReloadSafari(0)|'s
+  au BufWritePost *.scss ks|call ReloadSafari(1)|'s
+endif
+
+"diff with SVN checkout
+function! g:DiffWithSVNCheckedOut()
+  tab split
+  let filetype=&ft
+  diffthis
+  vnew | exe "%!svn cat " . substitute(expand("#:p"), " ", "\\\\ ", "g")
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSVN call g:DiffWithSVNCheckedOut()
+com! Diffsvn call g:DiffWithSVNCheckedOut()
+com! DiffSvn call g:DiffWithSVNCheckedOut()
+com! Dsvn call g:DiffWithSVNCheckedOut()
+com! DSvn call g:DiffWithSVNCheckedOut()
+
+function! g:BuildPWDTags()
+  let path = getcwd() 
+  "substitute(getcwd(), " ", "\\\\ ", "g")
+  execute "!/usr/local/bin/ctags --recurse -f \"" . path . "/tags\" \"" . path . "\""
+endfunction
+com! BuildPWDTags call g:BuildPWDTags()
+
+function! g:OpenAsHTML()
+  TOhtml
+  w ~/mvim-html-foo-output.html
+  execute "bd!"
+  execute "!open ~/mvim-html-foo-output.html"
+  sleep 4
+  execute "!rm ~/mvim-html-foo-output.html"
+endfunction
+com! OpenAsHTML call g:OpenAsHTML()
+
+"turn off the stupid toolbar
+if has("gui_running")
+    set guioptions=egmrt
+endif
+" substitute({expr}, {pat}, {sub}, {flags})		*substitute()*
+"
+
+" remap Ctrl+P in command mode (improving on Janus functionality)
+cmap <C-P> <C-R>=substitute(expand("%:p:h") . "/", " ", "\\\\ ", "g")<CR>
+" same as above, but for %%
+cnoremap %% <C-R>=substitute(expand('%:h').'/', " ", "\\\\ ", "g")<cr>

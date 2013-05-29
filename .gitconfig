@@ -1,1 +1,17 @@
-/Users/matthew.holden/.gitconfig
+[user]
+[alias] 
+  co = checkout 
+  ci = commit 
+  st = status 
+  br = branch 
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  type = cat-file -t 
+  dump = cat-file -p
+	plog = log --pretty=oneline
+[color]
+	ui = true
+[push]
+	default = simple
+[user]
+	name = Matthew Holden
+	email = matthew.holden@mindbodyonline.com
