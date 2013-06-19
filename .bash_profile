@@ -52,6 +52,11 @@ function parse_git_dirty {
 function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
+# Turns off git info in PS1.. to be used on a per-shell basis
+function set_normal_prompt {
+  export PS1='mfh | \[\033[1;33m\]\W\[\033[0m\]$ '
+}
+
 export PS1='mfh | \[\033[1;33m\]\W\[\033[0m\]$(parse_git_branch)$ '
 
 ###############################
