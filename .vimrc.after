@@ -7,9 +7,9 @@ set incsearch
 
 set nolist
 set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set guifont=Monaco:h13
 set nocursorline
 set history=200
@@ -75,6 +75,26 @@ function! g:OpenAsHTML()
   execute "!rm ~/mvim-html-foo-output.html"
 endfunction
 com! OpenAsHTML call g:OpenAsHTML()
+
+function! g:SetTabWidth(width)
+  execute "set tabstop=" . a:width
+  execute "set softtabstop=" . a:width
+  execute "set shiftwidth=" . a:width
+endfunction
+com! -nargs=1 SetTabWidth call g:SetTabWidth(<args>)
+
+func! g:WordProcessorMode() 
+  setlocal formatoptions=1 
+  setlocal noexpandtab 
+  map j gj 
+  map k gk
+  setlocal spell spelllang=en_us 
+  set complete+=s
+  set formatprg=fmt
+  setlocal wrap 
+  setlocal linebreak 
+endfu 
+com! WP call g:WordProcessorMode()
 
 "turn off the stupid toolbar
 if has("gui_running")
