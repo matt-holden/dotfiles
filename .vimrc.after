@@ -7,9 +7,9 @@ set incsearch
 
 set nolist
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set guifont=Monaco:h13
 set nocursorline
 set history=200
@@ -107,3 +107,5 @@ endif
 cmap <C-P> <C-R>=substitute(expand("%:p:h") . "/", " ", "\\\\ ", "g")<CR>
 " same as above, but for %%
 cnoremap %% <C-R>=substitute(expand('%:h').'/', " ", "\\\\ ", "g")<cr>
+
+au BufNewFile,BufRead *.ejs set filetype=html

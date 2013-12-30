@@ -9,7 +9,11 @@
   dump = cat-file -p
 	plog = log --pretty=oneline
 [color]
-	ui = true
+    ui = true
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
 [push]
 	default = simple
 [user]
