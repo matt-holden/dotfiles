@@ -159,3 +159,6 @@ if [ -f $GIT_BASH_COMPLETION ]; then
 fi
 
 alias gator-test="xctool -workspace Project-Gator/Project-Gator.xcworkspace/ -sdk iphonesimulator -scheme TestDevices-DevData test"
+
+#nvm
+(which brew > /dev/null) && [ $(brew list | grep nvm) != "" ] && source $(brew --prefix nvm)/nvm.sh
